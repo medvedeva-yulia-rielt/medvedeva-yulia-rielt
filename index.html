@@ -885,11 +885,11 @@
           </div>
 
           <div class="hero-cta">
-            <a href="https://t.me/+79045017110" class="btn btn-gold" target="_blank" rel="noopener">
-              Написать в Telegram
-            </a>
-            <a href="tel:+79045017110" class="btn btn-outline">
+            <a href="tel:+79045017110" class="btn btn-gold">
               +7 904 501-71-10
+            </a>
+            <a href="https://max.ru" class="btn btn-outline" target="_blank" rel="noopener">
+              Написать в Max
             </a>
           </div>
         </div>
@@ -1041,13 +1041,6 @@
                 <span class="contact-item-value">+7 904 501-71-10</span>
               </div>
             </a>
-            <a href="https://t.me/+79045017110" class="contact-item" target="_blank" rel="noopener">
-              <div class="contact-item-icon">✈️</div>
-              <div class="contact-item-text">
-                <span class="contact-item-label">Telegram</span>
-                <span class="contact-item-value">Написать сообщение</span>
-              </div>
-            </a>
             <a href="https://max.ru" class="contact-item" target="_blank" rel="noopener">
               <div class="contact-item-icon">💬</div>
               <div class="contact-item-text">
@@ -1081,20 +1074,6 @@
             <div class="form-group">
               <label for="message">Комментарий (необязательно)</label>
               <textarea id="message" name="message" placeholder="Бюджет, район, количество комнат..."></textarea>
-            </div>
-
-            <div class="form-group">
-              <label>Куда отправить заявку</label>
-              <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
-                <label style="flex: 1; display: flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;">
-                  <input type="radio" name="messenger" value="telegram" checked style="accent-color: var(--gold);">
-                  <span>Telegram</span>
-                </label>
-                <label style="flex: 1; display: flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;">
-                  <input type="radio" name="messenger" value="max" style="accent-color: var(--gold);">
-                  <span>Max</span>
-                </label>
-              </div>
             </div>
 
             <div class="form-check">
@@ -1200,7 +1179,6 @@
       const phone = document.getElementById('phone').value.trim();
       const city = document.getElementById('city').value;
       const message = document.getElementById('message').value.trim();
-      const messenger = document.querySelector('input[name="messenger"]:checked').value;
       const ads = document.getElementById('consent-ads').checked ? 'Да' : 'Нет';
 
       const textPlain =
@@ -1208,25 +1186,18 @@
         (message ? `\nКомментарий: ${message}` : '') +
         `\nСогласие на рекламу: ${ads}`;
 
-      const text = encodeURIComponent(textPlain);
-
-      // Подтверждение заказа / заявки
-      if (messenger === 'telegram') {
-        window.open(`https://t.me/+79045017110?text=${text}`, '_blank');
-        alert('Спасибо! Ваша заявка сформирована.\n\nСейчас откроется Telegram — отправьте сообщение, и я отвечу в ближайшее время.\n\nЭто подтверждение получения вашей заявки.');
-      } else {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(textPlain).then(() => {
-            alert('Спасибо! Текст заявки скопирован.\n\nСейчас откроется Max — вставьте сообщение и отправьте на +7 904 501-71-10.\n\nЭто подтверждение получения вашей заявки.');
-            window.open('https://max.ru', '_blank');
-          }).catch(() => {
-            alert('Заявка:\n\n' + textPlain + '\n\nСкопируйте этот текст и отправьте в Max на номер +7 904 501-71-10\n\nЭто подтверждение получения вашей заявки.');
-            window.open('https://max.ru', '_blank');
-          });
-        } else {
+      // Подтверждение заявки — отправка через Max
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textPlain).then(() => {
+          alert('Спасибо! Текст заявки скопирован.\n\nСейчас откроется Max — вставьте сообщение и отправьте на +7 904 501-71-10.\n\nЭто подтверждение получения вашей заявки.');
+          window.open('https://max.ru', '_blank');
+        }).catch(() => {
           alert('Заявка:\n\n' + textPlain + '\n\nСкопируйте этот текст и отправьте в Max на номер +7 904 501-71-10\n\nЭто подтверждение получения вашей заявки.');
           window.open('https://max.ru', '_blank');
-        }
+        });
+      } else {
+        alert('Заявка:\n\n' + textPlain + '\n\nСкопируйте этот текст и отправьте в Max на номер +7 904 501-71-10\n\nЭто подтверждение получения вашей заявки.');
+        window.open('https://max.ru', '_blank');
       }
       return false;
     }
